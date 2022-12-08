@@ -222,8 +222,7 @@
 				"clientAffinityEnabled": true,
 				"alwaysOn": true,
 				"reserved": true,
-				"serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', variables('HostingPlanName'))]",
-				
+				"serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', variables('HostingPlanName'))]"				
 			},
 			"resources": [
 				{
@@ -250,7 +249,7 @@
 						"logAnalyticsUri": "[variables('LogAnaltyicsUri')]",
 						"firstStartTimeRecord": "[parameters('FirstStartTimeRecord')]",
 						"Schedule": "[parameters('FunctionSchedule')]",
-						"WEBSITE_RUN_FROM_PACKAGE": "https://aka.ms/sentinel-qualyskb-functioncode"
+						"WEBSITE_RUN_FROM_PACKAGE": "https://github.com/sreedharande/QualysKBV2/blob/main/AzureFunctionQualysKB.zip?raw=true"
 					}
 				}
 			]
