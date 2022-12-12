@@ -74,7 +74,7 @@
 	"resources": [
 		{
 			"type": "Microsoft.Insights/components",
-			"apiVersion": "2015-05-01",
+			"apiVersion": "2020-02-02-preview",
 			"name": "[variables('FunctionName')]",
 			"location": "[resourceGroup().location]",
 			"kind": "web",
@@ -132,17 +132,18 @@
 		},
 		{
 			"type": "Microsoft.Web/serverfarms",
-			"apiVersion": "2018-02-01",
+			"apiVersion": "2018-11-01",
 			"name": "[variables('HostingPlanName')]",
 			"location": "[resourceGroup().location]",			
-			"kind": "elastic",
+			"kind": "",
 			"tags": {},
             "dependsOn": [],
-			"properties": {				
-				"targetWorkerCount": "2",
-                "targetWorkerSizeId": "3",                
-                "reserved": true,
-                "maximumElasticWorkerCount": "20"
+			"properties": {			
+				"workerSize": "3",
+                "workerSizeId": "3",
+                "numberOfWorkers": "1",
+                "maximumElasticWorkerCount": "20",
+                "zoneRedundant": false
 			},
 			"sku": {
                 "tier": "ElasticPremium",
