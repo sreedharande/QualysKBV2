@@ -73,7 +73,8 @@ function Html-ToText {
  # Function to retrieve the checkpoint start time of the last successful API call for a given logtype. Checkpoint file will be created if none exists
 function GetStartTime($CheckpointFile, $timeInterval){
 
-    $firstStartTimeRecord = Get-Date("$firstStartTimeRecord").ToString('yyyy-MM-dd HH:mm:ss')
+    $dt = Get-Date("$firstStartTimeRecord")
+    $firstStartTimeRecord = $dt.ToUniversalTime().ToString('yyyy-MM-dd HH:mm:ss')
 
     if ([System.IO.File]::Exists($CheckpointFile) -eq $false) {
         $CheckpointLog = @{}
