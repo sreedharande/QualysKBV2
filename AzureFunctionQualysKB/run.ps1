@@ -73,8 +73,12 @@ function Html-ToText {
  # Function to retrieve the checkpoint start time of the last successful API call for a given logtype. Checkpoint file will be created if none exists
 function GetStartTime($CheckpointFile, $timeInterval){
 
+    Write-Host "Requested Start Time Record :" $firstStartTimeRecord
+    
     $dt = Get-Date("$firstStartTimeRecord")
-    $firstStartTimeRecord = $dt.ToUniversalTime().ToString('yyyy-MM-dd HH:mm:ss')
+    $firstStartTimeRecord = $dt.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
+
+    Write-Host "Requested Start Time Record in UTC :" $firstStartTimeRecord
 
     if ([System.IO.File]::Exists($CheckpointFile) -eq $false) {
         $CheckpointLog = @{}
@@ -148,6 +152,7 @@ function QualysKB {
     }
 
     $startDate = GetStartTime -CheckpointFile $CheckPointFile  -timeInterval $timeInterval
+    
     $hdrs = @{"X-Requested-With"="powershell"}
     $base = "$Uri/fo"
     $body = "action=login&username=$username&password=$password"
@@ -160,12 +165,12 @@ function QualysKB {
         Write-Error -Message $_.Exception.Message
     }
 
-    Write-Host "Start Time :" $($startDate)
-    Write-Host " UTC current Time :" [datetime]::UtcNow
-    Write-Host "Constructed URL : $base/knowledge_base/vuln/?action=list&published_after=$($startDate)$filterparameters"
+    Write-Host "Start Time : $startDate"
+    Write-Host "UTC current Time : $currentUTCtime"
+    Write-Host "Constructed URL : $base/knowledge_base/vuln/?action=list&published_after=$startDate$filterparameters"
 
     $response = Try {
-        Invoke-RestMethod -Headers $hdrs -Uri "$base/knowledge_base/vuln/?action=list&published_after=$($startDate)$filterparameters" -WebSession $sess
+        Invoke-RestMethod -Headers $hdrs -Uri "$base/knowledge_base/vuln/?action=list&published_after=$startDate$filterparameters" -WebSession $sess
     }
     catch {
         Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__
