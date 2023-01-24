@@ -153,7 +153,7 @@ function QualysKB {
     $body = "action=login&username=$username&password=$password"
 
     Try {
-        Invoke-RestMethod -Headers $hdrs -Uri "$base/session/" -Method Post -Body $body -SessionVariable sess
+        Invoke-RestMethod -Headers $hdrs -Uri "$base/session/" -Method Post -Body $body -SessionVariable $sess
     }
     catch {
         Write-Host "Error in initializing session StatusCode:" $_.Exception.Response.StatusCode.value__
