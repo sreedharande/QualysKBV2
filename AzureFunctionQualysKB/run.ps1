@@ -158,7 +158,7 @@ function QualysKB {
     $body = "action=login&username=$username&password=$password"
 
     Try {
-        Invoke-RestMethod -Headers $hdrs -Uri "$base/session/" -Method Post -Body $body -SessionVariable $sess
+        Invoke-RestMethod -Headers $hdrs -Uri "$base/session/" -Method Post -Body $body -SessionVariable sess
     }
     catch {
         Write-Host "Error in initializing session StatusCode:" $_.Exception.Response.StatusCode.value__
@@ -224,7 +224,7 @@ function QualysKB {
             Write-Host "Number of Objects processed : " $objs.Length
 
         # Logout of the Session
-        Invoke-RestMethod -Headers $hdrs -Uri "$base/session" -Method Post -Body "action=logout" -WebSession $sess
+        Invoke-RestMethod -Headers $hdrs -Uri "$base/session/" -Method Post -Body "action=logout" -WebSession $sess
 
         # Iterate through each vulnerabilty obj in the $objs array, covert it to JSON and POST it to the Log Analytics API individually
         $startInterval = $startDate
@@ -262,7 +262,7 @@ function QualysKB {
     }
     else {
          # Logout of the Session
-        Invoke-RestMethod -Headers $hdrs -Uri "$base/session" -Method Post -Body "action=logout" -WebSession $sess
+        Invoke-RestMethod -Headers $hdrs -Uri "$base/session/" -Method Post -Body "action=logout" -WebSession $sess
         $endInterval = $endTime.ToString("yyyy-MM-ddTHH:mm:ssZ")
         # UpdateCheckpointTime -CheckpointFile $checkPointFile -LastSuccessfulTime $endTime
         Write-Host "INFO: No new Qualys KB vulnerability records between $startDate and $endInterval"
